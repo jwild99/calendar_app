@@ -8,9 +8,9 @@ class TodoItem extends StatelessWidget {
   final onDeleteItem;
 
   const TodoItem({
-    Key? key, 
-    required this.todo, 
-    required this.onToDoChanged, 
+    Key? key,
+    required this.todo,
+    required this.onToDoChanged,
     required this.onDeleteItem,
   }) : super(key: key);
 
@@ -18,7 +18,7 @@ class TodoItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.only(bottom: 20),
-      child: ListTile( 
+      child: ListTile(
         onTap: () {
           // print('Clicked on Todo Item.');
           onToDoChanged(todo);
@@ -29,14 +29,14 @@ class TodoItem extends StatelessWidget {
         contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
         tileColor: Colors.white,
         leading: Icon(
-          todo.isDone ? Icons.check_box : Icons.check_box_outline_blank, 
+          todo.isDone ? Icons.check_box : Icons.check_box_outline_blank,
           color: tdBlue,
         ),
         title: Text(
-          todo.todoText!, 
+          todo.todoText!,
           style: TextStyle(
-            fontSize: 16, 
-            color: tdBlack, 
+            fontSize: 16,
+            color: tdBlack,
             decoration: todo.isDone? TextDecoration.lineThrough : null,
           ),
         ),

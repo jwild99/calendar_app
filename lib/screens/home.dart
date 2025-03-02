@@ -15,7 +15,7 @@ class _HomeState extends State<Home> {
   final _todoController = TextEditingController();
   List<ToDo> _foundToDo = [];
 
-  @override 
+  @override
   void initState() {
     _foundToDo = todoList;
     super.initState();
@@ -30,7 +30,7 @@ class _HomeState extends State<Home> {
         children: [
           Container(
             padding: EdgeInsets.symmetric(
-              horizontal: 20, 
+              horizontal: 20,
               vertical: 15
             ),
             child: Column(
@@ -42,14 +42,14 @@ class _HomeState extends State<Home> {
                       Container(
                         margin: EdgeInsets.only(top: 50, bottom: 20),
                         child: Text(
-                          'All ToDos', 
+                          'All ToDos',
                           style: TextStyle(
-                            fontSize: 30, 
+                            fontSize: 30,
                             fontWeight: FontWeight.w500,
                           ),
                         ),
                       ),
-                      for (ToDo item in _foundToDo) 
+                      for (ToDo item in _foundToDo)
                         TodoItem(
                           todo: item,
                           onToDoChanged: _handleToDoChange,
@@ -68,16 +68,16 @@ class _HomeState extends State<Home> {
                 child: Container(
                   margin: EdgeInsets.only(
                     bottom: 20,
-                    right: 20, 
+                    right: 20,
                     left: 20,
                   ),
                   padding: EdgeInsets.symmetric(
-                    horizontal: 20, 
+                    horizontal: 20,
                     vertical: 5),
                   decoration: BoxDecoration(
                     color: Colors.white,
                     boxShadow: const [BoxShadow(
-                      color: Colors.grey, 
+                      color: Colors.grey,
                       offset:  Offset(0.0, 0.0),
                       blurRadius: 10.0,
                       spreadRadius: 0.0,
@@ -95,7 +95,7 @@ class _HomeState extends State<Home> {
               ),
               Container(
                 margin: EdgeInsets.only(
-                  bottom: 20, 
+                  bottom: 20,
                   right: 20,
                 ),
                 child: ElevatedButton(
@@ -108,9 +108,9 @@ class _HomeState extends State<Home> {
                      elevation: 10,
                   ),
                   child: Text(
-                    '+', 
+                    '+',
                     style: TextStyle(
-                      fontSize: 40, 
+                      fontSize: 40,
                       color: Colors.white
                     ),
                   ),
@@ -168,12 +168,12 @@ class _HomeState extends State<Home> {
         decoration: InputDecoration(
           contentPadding: EdgeInsets.all(0),
           prefixIcon: Icon(
-            Icons.search, 
-            color: tdBlack, 
+            Icons.search,
+            color: tdBlack,
             size: 20,
           ),
           prefixIconConstraints: BoxConstraints(
-              maxHeight: 20, 
+              maxHeight: 20,
               minWidth: 25
           ),
           border: InputBorder.none,
