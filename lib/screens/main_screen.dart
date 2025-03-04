@@ -1,7 +1,6 @@
 import 'package:calendar_app/util/responsive.dart';
 import 'package:calendar_app/widgets/dashboard_widget.dart';
 import 'package:calendar_app/widgets/side_menu_widget.dart';
-import 'package:calendar_app/widgets/summary_widget.dart';
 import 'package:flutter/material.dart';
 
 class MainScreen extends StatelessWidget {
@@ -21,7 +20,6 @@ class MainScreen extends StatelessWidget {
       endDrawer: Responsive.isMobile(context)
           ? SizedBox(
               width: MediaQuery.of(context).size.width * 0.8,
-              child: const SummaryWidget(),
             )
           : null,
       body: SafeArea(
@@ -38,11 +36,6 @@ class MainScreen extends StatelessWidget {
               flex: 7,
               child: DashboardWidget(),
             ),
-            if (isDesktop)
-              Expanded(
-                flex: 3,
-                child: SummaryWidget(),
-              ),
           ],
         ),
       ),

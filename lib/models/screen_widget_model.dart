@@ -1,11 +1,11 @@
-import 'package:calendar_app/model/graph_model.dart';
+import 'package:calendar_app/models/widget_model.dart';
 import 'package:flutter/material.dart';
 
-class BarGraphModel {
+class ScreenWidgetModel {
   final String label;
   final Color color;
-  final List<GraphModel> graph;
+  final List<WidgetModel> graph;
 
-  const BarGraphModel(
+  const ScreenWidgetModel(
       {required this.label, required this.color, required this.graph});
 }
