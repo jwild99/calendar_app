@@ -1,6 +1,6 @@
-import '../models/todo.dart';
+import '../models/todo_model.dart';
 import 'package:flutter/material.dart';
-import '../constants/colors.dart';
+import '../const/constant.dart';
 
 class TodoItem extends StatelessWidget {
   final ToDo todo;
@@ -30,7 +30,7 @@ class TodoItem extends StatelessWidget {
         tileColor: Colors.white,
         leading: Icon(
           todo.isDone ? Icons.check_box : Icons.check_box_outline_blank,
-          color: tdBlue,
+          color: tdGreen,
         ),
         title: Text(
           todo.todoText!,

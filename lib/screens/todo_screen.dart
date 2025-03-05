@@ -1,16 +1,16 @@
-import '../models/todo.dart';
+import '../models/todo_model.dart';
 import 'package:flutter/material.dart';
-import '../constants/colors.dart';
-import '../widgets/todo_item.dart';
+import '../const/constant.dart';
+import '../widgets/todo_item_widget.dart';
 
-class Home extends StatefulWidget {
-  Home({Key? key}) : super(key: key);
+class TodoScreen extends StatefulWidget {
+  TodoScreen({Key? key}) : super(key: key);
 
   @override
-  State<Home> createState() => _HomeState();
+  State<TodoScreen> createState() => _HomeState();
 }
 
-class _HomeState extends State<Home> {
+class _HomeState extends State<TodoScreen> {
   final todoList = ToDo.todoList();
   final _todoController = TextEditingController();
   List<ToDo> _foundToDo = [];
@@ -75,13 +75,7 @@ class _HomeState extends State<Home> {
                     horizontal: 20,
                     vertical: 5),
                   decoration: BoxDecoration(
-                    color: Colors.white,
-                    boxShadow: const [BoxShadow(
-                      color: Colors.grey,
-                      offset:  Offset(0.0, 0.0),
-                      blurRadius: 10.0,
-                      spreadRadius: 0.0,
-                    )],
+                    color: cardBackgroundColor,
                     borderRadius: BorderRadius.circular(10),
                   ),
                   child: TextField(
@@ -103,7 +97,7 @@ class _HomeState extends State<Home> {
                     _addToDoItem(_todoController.text);
                   },
                   style: ElevatedButton.styleFrom(
-                     backgroundColor: tdBlue,
+                     backgroundColor: tdGreen,
                      minimumSize: Size(60, 60),
                      elevation: 10,
                   ),
@@ -160,7 +154,7 @@ class _HomeState extends State<Home> {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 15),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: cardBackgroundColor,
         borderRadius: BorderRadius.circular(20)
       ),
       child: TextField(
@@ -169,7 +163,7 @@ class _HomeState extends State<Home> {
           contentPadding: EdgeInsets.all(0),
           prefixIcon: Icon(
             Icons.search,
-            color: tdBlack,
+            color: Colors.white,
             size: 20,
           ),
           prefixIconConstraints: BoxConstraints(
@@ -178,7 +172,7 @@ class _HomeState extends State<Home> {
           ),
           border: InputBorder.none,
           hintText: 'Search',
-          hintStyle: TextStyle(color: tdGrey),
+          hintStyle: TextStyle(color: Colors.white),
         ),
       ),
     );
@@ -190,21 +184,7 @@ class _HomeState extends State<Home> {
       elevation: 0,
       title: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-        Icon(
-          Icons.menu,
-          color: tdBlack,
-          size: 30,
-        ),
-        Container(
-          height: 40,
-          width: 40,
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(20),
-            child: Image.asset('assets/images/avatar.jpeg'),
-          ),
-        ),
-      ]),
+      ),
     );
   }
 }
