@@ -16,7 +16,7 @@ class ScreenCard extends StatelessWidget {
     final List<Widget> screens = [
       TodoScreen(),
       const CalendarScreen(),
-      const TimerScreen(),
+      TimerScreen(),
     ];
 
     return GridView.builder(
