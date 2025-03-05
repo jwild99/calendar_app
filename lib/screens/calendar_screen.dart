@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import '../const/constant.dart';
 
 class CalendarScreen extends StatefulWidget {
   const CalendarScreen({super.key});
@@ -65,69 +66,74 @@ class CalendarScreenState extends State<CalendarScreen> {
   //
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            IconButton(
-              icon: const Icon(Icons.arrow_back_ios),
-              onPressed: () => _changeMonth(-1),
-            ),
-            Text(
-              '${_monthName(currentMonth.month)} ${currentMonth.year}',
-              style: const TextStyle(fontSize: 24, fontWeight: FontWeight.w500),
-            ),
-            IconButton(
-              icon: const Icon(Icons.arrow_forward_ios),
-              onPressed: () => _changeMonth(1),
-            ),
-          ],
-        ),
-        const Gap(12),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Row(
+
+    return Scaffold(
+      appBar: _buildAppBar(),
+      backgroundColor: backgroundColor,
+      body: Column(
+        children: [
+          Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: List.generate(
-                7,
-                (index) => Text(
-                      ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'][index],
-                      style: const TextStyle(
-                          fontWeight: FontWeight.w500,
-                          fontSize: 18,
-                          color: Colors.blueGrey),
-                    )),
+            children: [
+              IconButton(
+                icon: const Icon(Icons.arrow_back_ios),
+                onPressed: () => _changeMonth(-1),
+              ),
+              Text(
+                '${_monthName(currentMonth.month)} ${currentMonth.year}',
+                style: const TextStyle(fontSize: 24, fontWeight: FontWeight.w500),
+              ),
+              IconButton(
+                icon: const Icon(Icons.arrow_forward_ios),
+                onPressed: () => _changeMonth(1),
+              ),
+            ],
           ),
-        ),
-        const Gap(12),
-        Flexible(
-          child: GridView.builder(
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 7),
-            itemCount: datesGrid.length,
-            itemBuilder: (context, index) {
-              DateTime date = datesGrid[index];
-              bool isCurrentMonth = date.month == currentMonth.month;
-              return Padding(
-                padding: const EdgeInsets.all(4.0),
-                child: CircleAvatar(
-                  backgroundColor:
-                      isCurrentMonth ? Colors.blueGrey : Colors.transparent,
-                  child: Text(
-                    date.day.toString(),
-                    style: TextStyle(
-                      fontWeight: FontWeight.w500,
-                      fontSize: 16,
-                      color: isCurrentMonth ? Colors.black : Colors.grey,
+          const Gap(12),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: List.generate(
+                  7,
+                  (index) => Text(
+                        ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'][index],
+                        style: const TextStyle(
+                            fontWeight: FontWeight.w500,
+                            fontSize: 18,
+                            color: Colors.white),
+                      )),
+            ),
+          ),
+          const Gap(12),
+          Flexible(
+            child: GridView.builder(
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 7),
+              itemCount: datesGrid.length,
+              itemBuilder: (context, index) {
+                DateTime date = datesGrid[index];
+                bool isCurrentMonth = date.month == currentMonth.month;
+                return Padding(
+                  padding: const EdgeInsets.all(4.0),
+                  child: CircleAvatar(
+                    backgroundColor:
+                        isCurrentMonth ? cardBackgroundColor : Colors.transparent,
+                    child: Text(
+                      date.day.toString(),
+                      style: TextStyle(
+                        fontWeight: FontWeight.w500,
+                        fontSize: 16,
+                        color: isCurrentMonth ? Colors.white : Colors.white,
+                      ),
                     ),
                   ),
-                ),
-              );
-            },
+                );
+              },
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 
@@ -146,5 +152,15 @@ class CalendarScreenState extends State<CalendarScreen> {
       'November',
       'December'
     ][monthNumber - 1];
+  }
+
+  AppBar _buildAppBar() {
+    return AppBar(
+      backgroundColor: tdBGColor,
+      elevation: 0,
+      title: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      ),
+    );
   }
 }

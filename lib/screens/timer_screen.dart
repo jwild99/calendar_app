@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:intl/intl.dart';
+import '../const/constant.dart';
 
 
 class TimerScreen extends StatefulWidget {
@@ -53,7 +54,8 @@ class TimerScreenState extends State<TimerScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
+      appBar: _buildAppBar(),
+      backgroundColor: backgroundColor,
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -75,7 +77,7 @@ class TimerScreenState extends State<TimerScreen> {
             message,
             textAlign: TextAlign.center,
             style: TextStyle(
-              color: Colors.orange.shade300,
+              color: cardBackgroundColor,
               fontSize: 20,
             ),
           ),
@@ -86,9 +88,9 @@ class TimerScreenState extends State<TimerScreen> {
               ElevatedButton(
                 onPressed: resetTimer,
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.black,
+                  backgroundColor: cardBackgroundColor,
                   shape: CircleBorder(
-                    side: BorderSide(color: Colors.orange.shade300),
+                    side: BorderSide(color: cardBackgroundColor),
                   ),
                   padding: EdgeInsets.all(40.0),
                 ),
@@ -103,7 +105,7 @@ class TimerScreenState extends State<TimerScreen> {
               ElevatedButton(
                 onPressed: beginTimer,
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.orange.shade300,
+                  backgroundColor: cardBackgroundColor,
                   shape: CircleBorder(),
                   padding: EdgeInsets.all(40.0),
                 ),
@@ -118,6 +120,16 @@ class TimerScreenState extends State<TimerScreen> {
             ],
           ),
         ],
+      ),
+    );
+  }
+
+  AppBar _buildAppBar() {
+    return AppBar(
+      backgroundColor: tdBGColor,
+      elevation: 0,
+      title: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
       ),
     );
   }
