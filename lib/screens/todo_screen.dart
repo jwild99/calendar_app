@@ -1,21 +1,21 @@
-import '../models/todo.dart';
+import '../models/todo_model.dart';
 import 'package:flutter/material.dart';
-import '../constants/colors.dart';
-import '../widgets/todo_item.dart';
+import '../const/constant.dart';
+import '../widgets/todo_item_widget.dart';
 
-class Home extends StatefulWidget {
-  Home({Key? key}) : super(key: key);
+class TodoScreen extends StatefulWidget {
+  TodoScreen({Key? key}) : super(key: key);
 
   @override
-  State<Home> createState() => _HomeState();
+  State<TodoScreen> createState() => _HomeState();
 }
 
-class _HomeState extends State<Home> {
+class _HomeState extends State<TodoScreen> {
   final todoList = ToDo.todoList();
   final _todoController = TextEditingController();
   List<ToDo> _foundToDo = [];
 
-  @override 
+  @override
   void initState() {
     _foundToDo = todoList;
     super.initState();
@@ -30,7 +30,7 @@ class _HomeState extends State<Home> {
         children: [
           Container(
             padding: EdgeInsets.symmetric(
-              horizontal: 20, 
+              horizontal: 20,
               vertical: 15
             ),
             child: Column(
@@ -42,14 +42,14 @@ class _HomeState extends State<Home> {
                       Container(
                         margin: EdgeInsets.only(top: 50, bottom: 20),
                         child: Text(
-                          'All ToDos', 
+                          'All ToDos',
                           style: TextStyle(
-                            fontSize: 30, 
+                            fontSize: 30,
                             fontWeight: FontWeight.w500,
                           ),
                         ),
                       ),
-                      for (ToDo item in _foundToDo) 
+                      for (ToDo item in _foundToDo)
                         TodoItem(
                           todo: item,
                           onToDoChanged: _handleToDoChange,
@@ -68,20 +68,14 @@ class _HomeState extends State<Home> {
                 child: Container(
                   margin: EdgeInsets.only(
                     bottom: 20,
-                    right: 20, 
+                    right: 20,
                     left: 20,
                   ),
                   padding: EdgeInsets.symmetric(
-                    horizontal: 20, 
+                    horizontal: 20,
                     vertical: 5),
                   decoration: BoxDecoration(
-                    color: Colors.white,
-                    boxShadow: const [BoxShadow(
-                      color: Colors.grey, 
-                      offset:  Offset(0.0, 0.0),
-                      blurRadius: 10.0,
-                      spreadRadius: 0.0,
-                    )],
+                    color: cardBackgroundColor,
                     borderRadius: BorderRadius.circular(10),
                   ),
                   child: TextField(
@@ -95,7 +89,7 @@ class _HomeState extends State<Home> {
               ),
               Container(
                 margin: EdgeInsets.only(
-                  bottom: 20, 
+                  bottom: 20,
                   right: 20,
                 ),
                 child: ElevatedButton(
@@ -103,14 +97,14 @@ class _HomeState extends State<Home> {
                     _addToDoItem(_todoController.text);
                   },
                   style: ElevatedButton.styleFrom(
-                     backgroundColor: tdBlue,
+                     backgroundColor: tdGreen,
                      minimumSize: Size(60, 60),
                      elevation: 10,
                   ),
                   child: Text(
-                    '+', 
+                    '+',
                     style: TextStyle(
-                      fontSize: 40, 
+                      fontSize: 40,
                       color: Colors.white
                     ),
                   ),
@@ -160,7 +154,7 @@ class _HomeState extends State<Home> {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 15),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: cardBackgroundColor,
         borderRadius: BorderRadius.circular(20)
       ),
       child: TextField(
@@ -168,17 +162,17 @@ class _HomeState extends State<Home> {
         decoration: InputDecoration(
           contentPadding: EdgeInsets.all(0),
           prefixIcon: Icon(
-            Icons.search, 
-            color: tdBlack, 
+            Icons.search,
+            color: Colors.white,
             size: 20,
           ),
           prefixIconConstraints: BoxConstraints(
-              maxHeight: 20, 
+              maxHeight: 20,
               minWidth: 25
           ),
           border: InputBorder.none,
           hintText: 'Search',
-          hintStyle: TextStyle(color: tdGrey),
+          hintStyle: TextStyle(color: Colors.white),
         ),
       ),
     );
@@ -190,21 +184,7 @@ class _HomeState extends State<Home> {
       elevation: 0,
       title: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-        Icon(
-          Icons.menu,
-          color: tdBlack,
-          size: 30,
-        ),
-        Container(
-          height: 40,
-          width: 40,
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(20),
-            child: Image.asset('assets/images/avatar.jpeg'),
-          ),
-        ),
-      ]),
+      ),
     );
   }
 }
