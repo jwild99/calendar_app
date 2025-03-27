@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:google_fonts/google_fonts.dart';
 import '../const/constant.dart';
 
 class CalendarScreen extends StatefulWidget {
@@ -81,7 +82,7 @@ class CalendarScreenState extends State<CalendarScreen> {
               ),
               Text(
                 '${_monthName(currentMonth.month)} ${currentMonth.year}',
-                style: const TextStyle(fontSize: 24, fontWeight: FontWeight.w500),
+                style: GoogleFonts.teko(fontSize: 35, fontWeight: FontWeight.w500),
               ),
               IconButton(
                 icon: const Icon(Icons.arrow_forward_ios),
@@ -98,9 +99,9 @@ class CalendarScreenState extends State<CalendarScreen> {
                   7,
                   (index) => Text(
                         ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'][index],
-                        style: const TextStyle(
+                        style:  GoogleFonts.teko(
                             fontWeight: FontWeight.w500,
-                            fontSize: 18,
+                            fontSize: 28,
                             color: Colors.white),
                       )),
             ),
@@ -121,10 +122,10 @@ class CalendarScreenState extends State<CalendarScreen> {
                         isCurrentMonth ? cardBackgroundColor : Colors.transparent,
                     child: Text(
                       date.day.toString(),
-                      style: TextStyle(
+                      style: GoogleFonts.teko(
                         fontWeight: FontWeight.w500,
-                        fontSize: 16,
-                        color: isCurrentMonth ? Colors.white : Colors.white,
+                        fontSize: 22,
+                        color: isCurrentMonth ? Colors.blue : Colors.white,
                       ),
                     ),
                   ),

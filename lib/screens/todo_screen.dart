@@ -7,7 +7,7 @@ import 'dart:io';
 import 'package:path_provider/path_provider.dart';
 
 class TodoScreen extends StatefulWidget {
-  TodoScreen({Key? key}) : super(key: key);
+  const TodoScreen({super.key});
 
   @override
   State<TodoScreen> createState() => _HomeState();
