@@ -30,7 +30,7 @@ class TodoItem extends StatelessWidget {
         tileColor: Colors.white,
         leading: Icon(
           todo.isDone ? Icons.check_box : Icons.check_box_outline_blank,
-          color: tdGreen,
+          color: selectionColor,
         ),
         title: Text(
           todo.todoText!,

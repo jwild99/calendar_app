@@ -2,6 +2,9 @@ import '../models/todo_model.dart';
 import 'package:flutter/material.dart';
 import '../const/constant.dart';
 import '../widgets/todo_item_widget.dart';
+import 'dart:convert';
+import 'dart:io';
+import 'package:path_provider/path_provider.dart';
 
 class TodoScreen extends StatefulWidget {
   const TodoScreen({super.key});
@@ -15,16 +18,57 @@ class _HomeState extends State<TodoScreen> {
   final _todoController = TextEditingController();
   List<ToDo> _foundToDo = [];
 
+  void _debugPrintFilePath() async {
+    final file = await _getFile();
+    print("To-Do List saved at: ${file.path}");
+  }
+
+  Future<File> _getFile() async {
+    final directory = await getApplicationDocumentsDirectory();
+    final userDataPath = Directory('${directory.path}/user_data');
+
+    if (!await userDataPath.exists()) {
+      await userDataPath.create(recursive: true);
+    }
+
+    return File('${userDataPath.path}/todo_list.json');
+  }
+
+  Future<void> _saveToDoList() async {
+    final file = await _getFile();
+    final jsonList = jsonEncode(todoList.map((todo) => todo.toJson()).toList());
+    await file.writeAsString(jsonList);
+  }
+
+  Future<void> _loadToDoList() async {
+    try {
+      final file = await _getFile();
+      if (await file.exists()) {
+        final jsonData = await file.readAsString();
+        final List<dynamic> jsonList = jsonDecode(jsonData);
+        setState(() {
+          todoList.clear();
+          todoList.addAll(jsonList.map((json) => ToDo.fromJson(json)).toList());
+          _sortToDoList();
+          _foundToDo = List.from(todoList);
+        });
+      }
+    } catch (e) {
+      print("Error loading to-do list: $e");
+    }
+  }
+
   @override
   void initState() {
-    _foundToDo = todoList;
     super.initState();
+    _loadToDoList();
+    _debugPrintFilePath();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: tdBGColor,
+      backgroundColor: backgroundColor,
       appBar: _buildAppBar(),
       body: Stack(
         children: [
@@ -97,7 +141,7 @@ class _HomeState extends State<TodoScreen> {
                     _addToDoItem(_todoController.text);
                   },
                   style: ElevatedButton.styleFrom(
-                     backgroundColor: tdGreen,
+                     backgroundColor: selectionColor,
                      minimumSize: Size(60, 60),
                      elevation: 10,
                   ),
@@ -119,20 +163,37 @@ class _HomeState extends State<TodoScreen> {
   void _handleToDoChange(ToDo todo) {
     setState(() {
       todo.isDone = !todo.isDone;
+      _sortToDoList();
+      _foundToDo = List.from(todoList);
     });
+    _saveToDoList();
   }
 
   void _deleteToDoItem(String id) {
     setState(() {
       todoList.removeWhere((item) => item.id == id);
     });
+    _saveToDoList();
+    _foundToDo = List.from(todoList);
   }
 
   void _addToDoItem(String todo) {
+    print("adding to do item: $todo");
     setState(() {
-      todoList.add(ToDo(id: DateTime.now().microsecondsSinceEpoch.toString(), todoText: todo));
+      todoList.add(ToDo(
+        id: DateTime.now().microsecondsSinceEpoch.toString(),
+        todoText: todo
+      ));
+      _sortToDoList();
+      _foundToDo = List.from(todoList);
     });
     _todoController.clear();
+    _saveToDoList();
+    print("To-do list after adding item: ${jsonEncode(todoList.map((todo) => todo.toJson()).toList())}");
+  }
+
+  void _sortToDoList() {
+    todoList.sort((a, b) => a.isDone ? 1 : -1);
   }
 
   void _runFilter(String enteredKeyword) {
@@ -180,7 +241,7 @@ class _HomeState extends State<TodoScreen> {
 
   AppBar _buildAppBar() {
     return AppBar(
-      backgroundColor: tdBGColor,
+      backgroundColor: backgroundColor,
       elevation: 0,
       title: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
