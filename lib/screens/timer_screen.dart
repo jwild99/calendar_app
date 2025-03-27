@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:intl/intl.dart';
 import '../const/constant.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 
 class TimerScreen extends StatefulWidget {
+  const TimerScreen({super.key});
+
   @override
   TimerScreenState createState() => TimerScreenState();
 }
@@ -55,33 +58,41 @@ class TimerScreenState extends State<TimerScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: _buildAppBar(),
-      backgroundColor: backgroundColor,
+      backgroundColor: const Color.fromARGB(255, 72, 161, 82),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
+          
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
                 "${formatter.format(secondsRemaining ~/ 60)} : ${formatter.format(secondsRemaining % 60)}",
-                style: TextStyle(
+                style: GoogleFonts.teko(
                   color: Colors.white,
-                  fontSize: 48,
+                  fontSize: 55,
+                  letterSpacing: 5,
                 ),
               ),
             ],
+          ),
+          Image.asset(
+            'assets/images/tomatotimer.png',
+            width: 600.0,
+            height: 240.0,
           ),
           SizedBox(height: 20),
           Text(
             message,
             textAlign: TextAlign.center,
-            style: TextStyle(
+            style: GoogleFonts.teko(
               color: cardBackgroundColor,
-              fontSize: 20,
+              fontSize: 30,
+              letterSpacing: 5,
             ),
           ),
-          SizedBox(height: 280),
+          SizedBox(height: 40),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
@@ -89,31 +100,36 @@ class TimerScreenState extends State<TimerScreen> {
                 onPressed: resetTimer,
                 style: ElevatedButton.styleFrom(
                   backgroundColor: cardBackgroundColor,
-                  shape: CircleBorder(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(500.0),
                     side: BorderSide(color: cardBackgroundColor),
                   ),
                   padding: EdgeInsets.all(40.0),
                 ),
                 child: Text(
                   "Stop",
-                  style: TextStyle(
+                  style: GoogleFonts.teko(
                     color: Colors.white,
-                    fontSize: 24,
-                  ),
+                    fontSize: 30,
+                    letterSpacing: 5,
+                  ), 
                 ),
               ),
               ElevatedButton(
                 onPressed: beginTimer,
                 style: ElevatedButton.styleFrom(
                   backgroundColor: cardBackgroundColor,
-                  shape: CircleBorder(),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(500.0),
+                    ),
                   padding: EdgeInsets.all(40.0),
                 ),
                 child: Text(
                   "Start",
-                  style: TextStyle(
+                  style: GoogleFonts.teko(
                     color: Colors.white,
-                    fontSize: 24,
+                    fontSize: 30,
+                    letterSpacing: 5,
                   ),
                 ),
               ),
