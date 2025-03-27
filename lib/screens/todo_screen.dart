@@ -24,7 +24,7 @@ class _HomeState extends State<TodoScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: tdBGColor,
+      backgroundColor: backgroundColor,
       appBar: _buildAppBar(),
       body: Stack(
         children: [
@@ -97,7 +97,7 @@ class _HomeState extends State<TodoScreen> {
                     _addToDoItem(_todoController.text);
                   },
                   style: ElevatedButton.styleFrom(
-                     backgroundColor: tdGreen,
+                     backgroundColor: selectionColor,
                      minimumSize: Size(60, 60),
                      elevation: 10,
                   ),
@@ -180,7 +180,7 @@ class _HomeState extends State<TodoScreen> {
 
   AppBar _buildAppBar() {
     return AppBar(
-      backgroundColor: tdBGColor,
+      backgroundColor: backgroundColor,
       elevation: 0,
       title: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
