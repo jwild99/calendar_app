@@ -12,6 +12,7 @@ class TimerScreen extends StatefulWidget {
 class TimerScreenState extends State<TimerScreen> {
   int secondsRemaining = 0;
   int minutesRemaining = 25;
+  int numberOfPomodoros = 0;
   Timer? countdownTimer;
   final formatter = NumberFormat("00");
   String message = "";
@@ -39,11 +40,20 @@ class TimerScreenState extends State<TimerScreen> {
         if (secondsRemaining > 0) {
           secondsRemaining--;
         } else {
+          numberOfPomodoros++;
           countdownTimer!.cancel();
           setState(() {
+            if(numberOfPomodoros < 4){
             message = "Time's up! Starting 5-minute break.";
             minutesRemaining = 5;
             secondsRemaining = minutesRemaining * 60;
+            }
+            else{
+              numberOfPomodoros = 0;
+              message = "You've completed 4 pomodoros, enjoy a longer break";
+              minutesRemaining = 30;
+              secondsRemaining = minutesRemaining * 60;
+            }
           });
           beginTimer();
         }
