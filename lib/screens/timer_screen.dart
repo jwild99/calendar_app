@@ -73,7 +73,7 @@ class TimerScreenState extends State<TimerScreen> {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          
+
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -122,7 +122,7 @@ class TimerScreenState extends State<TimerScreen> {
                     color: Colors.white,
                     fontSize: 30,
                     letterSpacing: 5,
-                  ), 
+                  ),
                 ),
               ),
               ElevatedButton(
@@ -152,7 +152,7 @@ class TimerScreenState extends State<TimerScreen> {
 
   AppBar _buildAppBar() {
     return AppBar(
-      backgroundColor: backgroundColor,
+      backgroundColor: const Color.fromARGB(255, 24, 48, 20),
       elevation: 0,
       title: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
