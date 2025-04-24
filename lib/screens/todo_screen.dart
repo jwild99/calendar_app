@@ -77,7 +77,7 @@ class _HomeState extends State<TodoScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: backgroundColor,
+      backgroundColor: const Color.fromARGB(233, 240, 252, 184),
       appBar: _buildAppBar(),
       body: Stack(
         children: [
@@ -101,6 +101,7 @@ class _HomeState extends State<TodoScreen> {
                             style: TextStyle(
                               fontSize: 30,
                               fontWeight: FontWeight.w500,
+                              color: const Color.fromARGB(255, 97, 94, 94),
                             ),
                           ),
                         ),
@@ -121,25 +122,30 @@ class _HomeState extends State<TodoScreen> {
             // Footer container with the text field and add button
             Align(
               alignment: Alignment.bottomCenter,
-              child: Container(
-                height: 100, // Set height for footer (includes text field and button)
-                padding: EdgeInsets.symmetric(horizontal: 20),
-                color: backgroundColor, // Color for the footer (background of text field)
-                child: Row(
-                  children: [
-                    // Text input field
-                    Expanded(
-                      child: Container(
-                        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-                        decoration: BoxDecoration(
-                          color: Colors.white, // Text field background
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: TextField(
-                          controller: _todoController,
-                          decoration: InputDecoration(
-                            hintText: 'Add a new todo item',
-                            border: InputBorder.none,
+            child: Row(children: [
+              Expanded(
+                child: Container(
+                  margin: EdgeInsets.only(
+                    bottom: 20,
+                    right: 20,
+                    left: 20,
+                  ),
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 20,
+                    vertical: 5),
+                  decoration: BoxDecoration(
+                    color: const Color.fromARGB(255, 228, 241, 144),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: TextField(
+                    controller: _todoController,
+                    decoration: InputDecoration(
+                      hintText: 'Add a new todo item',
+                      hintStyle: TextStyle
+                      (
+                        color: const Color.fromARGB(255, 97, 94, 94),
+                      ),
+                      border: InputBorder.none,
                           ),
                         ),
                       ),
@@ -147,19 +153,20 @@ class _HomeState extends State<TodoScreen> {
 
                     // Add button with plus icon
                     Container(
-                      margin: EdgeInsets.only(left: 10),
+                      margin: EdgeInsets.only(bottom: 20, right: 20),
                       child: ElevatedButton(
                         onPressed: () {
                           _addToDoItem(_todoController.text);
                         },
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: selectionColor,
+                          backgroundColor: const Color.fromARGB(255, 255, 255, 255),
                           minimumSize: Size(60, 60),
                           elevation: 10,
                         ),
                         child: Text(
                           '+',
-                          style: TextStyle(fontSize: 40, color: Colors.white),
+                          textAlign: TextAlign.justify,
+                          style: TextStyle(fontSize: 40, color: const Color.fromARGB(255, 97, 94, 94),),
                         ),
                       ),
                     ),
@@ -190,6 +197,7 @@ class _HomeState extends State<TodoScreen> {
   }
 
   void _addToDoItem(String todo) {
+    print("Adding to do item: $todo");
     setState(() {
       todoList.add(ToDo(
         id: DateTime.now().microsecondsSinceEpoch.toString(),
@@ -225,7 +233,7 @@ class _HomeState extends State<TodoScreen> {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 15),
       decoration: BoxDecoration(
-        color: cardBackgroundColor,
+        color: const Color.fromARGB(255, 245, 245, 205),
         borderRadius: BorderRadius.circular(20)
       ),
       child: TextField(
@@ -234,7 +242,7 @@ class _HomeState extends State<TodoScreen> {
           contentPadding: EdgeInsets.all(0),
           prefixIcon: Icon(
             Icons.search,
-            color: Colors.white,
+            color: Colors.black,
             size: 20,
           ),
           prefixIconConstraints: BoxConstraints(
@@ -243,7 +251,7 @@ class _HomeState extends State<TodoScreen> {
           ),
           border: InputBorder.none,
           hintText: 'Search',
-          hintStyle: TextStyle(color: Colors.white),
+          hintStyle: TextStyle(color: Colors.black),
         ),
       ),
     );
@@ -251,7 +259,7 @@ class _HomeState extends State<TodoScreen> {
 
   AppBar _buildAppBar() {
     return AppBar(
-      backgroundColor: backgroundColor,
+      backgroundColor: const Color.fromRGBO(254, 255, 233, 1),
       elevation: 0,
       title: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
