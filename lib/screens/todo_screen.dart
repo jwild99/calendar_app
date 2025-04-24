@@ -16,6 +16,8 @@ class TodoScreen extends StatefulWidget {
 class _HomeState extends State<TodoScreen> {
   final todoList = ToDo.todoList();
   final _todoController = TextEditingController();
+  final ScrollController _scrollController = ScrollController();
+
   List<ToDo> _foundToDo = [];
 
   void _debugPrintFilePath() async {
@@ -66,98 +68,108 @@ class _HomeState extends State<TodoScreen> {
   }
 
   @override
+  void dispose() {
+    _scrollController.dispose();
+    _todoController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: backgroundColor,
       appBar: _buildAppBar(),
       body: Stack(
         children: [
+        // Main content (to-do list)
           Container(
-            padding: EdgeInsets.symmetric(
-              horizontal: 20,
-              vertical: 15
+            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+              child: Column(
+                children: [
+                  searchBox(),
+                  Expanded(
+                    child: Scrollbar(
+                    controller: _scrollController,
+                    thumbVisibility: true,
+                    child: ListView(
+                      controller: _scrollController,
+                      children: [
+                        Container(
+                          margin: EdgeInsets.only(top: 50, bottom: 20),
+                          child: Text(
+                            'All ToDos',
+                            style: TextStyle(
+                              fontSize: 30,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ),
+                        for (ToDo item in _foundToDo)
+                          TodoItem(
+                            todo: item,
+                            onToDoChanged: _handleToDoChange,
+                            onDeleteItem: _deleteToDoItem,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
-            child: Column(
-              children: [
-                searchBox(),
-                Expanded(
-                  child: ListView(
-                    children: [
-                      Container(
-                        margin: EdgeInsets.only(top: 50, bottom: 20),
-                        child: Text(
-                          'All ToDos',
-                          style: TextStyle(
-                            fontSize: 30,
-                            fontWeight: FontWeight.w500,
+
+            // Footer container with the text field and add button
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: Container(
+                height: 100, // Set height for footer (includes text field and button)
+                padding: EdgeInsets.symmetric(horizontal: 20),
+                color: backgroundColor, // Color for the footer (background of text field)
+                child: Row(
+                  children: [
+                    // Text input field
+                    Expanded(
+                      child: Container(
+                        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                        decoration: BoxDecoration(
+                          color: Colors.white, // Text field background
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: TextField(
+                          controller: _todoController,
+                          decoration: InputDecoration(
+                            hintText: 'Add a new todo item',
+                            border: InputBorder.none,
                           ),
                         ),
                       ),
-                      for (ToDo item in _foundToDo)
-                        TodoItem(
-                          todo: item,
-                          onToDoChanged: _handleToDoChange,
-                          onDeleteItem: _deleteToDoItem,
+                    ),
+
+                    // Add button with plus icon
+                    Container(
+                      margin: EdgeInsets.only(left: 10),
+                      child: ElevatedButton(
+                        onPressed: () {
+                          _addToDoItem(_todoController.text);
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: selectionColor,
+                          minimumSize: Size(60, 60),
+                          elevation: 10,
                         ),
-                    ],
-                  )
-                )
-              ],
+                        child: Text(
+                          '+',
+                          style: TextStyle(fontSize: 40, color: Colors.white),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             ),
-          ),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: Row(children: [
-              Expanded(
-                child: Container(
-                  margin: EdgeInsets.only(
-                    bottom: 20,
-                    right: 20,
-                    left: 20,
-                  ),
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 20,
-                    vertical: 5),
-                  decoration: BoxDecoration(
-                    color: cardBackgroundColor,
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: TextField(
-                    controller: _todoController,
-                    decoration: InputDecoration(
-                      hintText: 'Add a new todo item',
-                      border: InputBorder.none,
-                    ),
-                  ),
-                ),
-              ),
-              Container(
-                margin: EdgeInsets.only(
-                  bottom: 20,
-                  right: 20,
-                ),
-                child: ElevatedButton(
-                  onPressed: () {
-                    _addToDoItem(_todoController.text);
-                  },
-                  style: ElevatedButton.styleFrom(
-                     backgroundColor: selectionColor,
-                     minimumSize: Size(60, 60),
-                     elevation: 10,
-                  ),
-                  child: Text(
-                    '+',
-                    style: TextStyle(
-                      fontSize: 40,
-                      color: Colors.white
-                    ),
-                  ),
-                ),
-              ),
-            ],)
-          )
-        ],)
-    );
+          ],
+        )
+      );
   }
 
   void _handleToDoChange(ToDo todo) {
@@ -178,7 +190,6 @@ class _HomeState extends State<TodoScreen> {
   }
 
   void _addToDoItem(String todo) {
-    print("adding to do item: $todo");
     setState(() {
       todoList.add(ToDo(
         id: DateTime.now().microsecondsSinceEpoch.toString(),
@@ -189,7 +200,6 @@ class _HomeState extends State<TodoScreen> {
     });
     _todoController.clear();
     _saveToDoList();
-    print("To-do list after adding item: ${jsonEncode(todoList.map((todo) => todo.toJson()).toList())}");
   }
 
   void _sortToDoList() {
@@ -245,6 +255,7 @@ class _HomeState extends State<TodoScreen> {
       elevation: 0,
       title: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+
       ),
     );
   }
