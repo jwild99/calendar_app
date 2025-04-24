@@ -16,6 +16,8 @@ class TodoScreen extends StatefulWidget {
 class _HomeState extends State<TodoScreen> {
   final todoList = ToDo.todoList();
   final _todoController = TextEditingController();
+  final ScrollController _scrollController = ScrollController();
+
   List<ToDo> _foundToDo = [];
 
   void _debugPrintFilePath() async {
@@ -66,48 +68,60 @@ class _HomeState extends State<TodoScreen> {
   }
 
   @override
+  void dispose() {
+    _scrollController.dispose();
+    _todoController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color.fromARGB(233, 240, 252, 184),
       appBar: _buildAppBar(),
       body: Stack(
         children: [
+        // Main content (to-do list)
           Container(
-            padding: EdgeInsets.symmetric(
-              horizontal: 20,
-              vertical: 15
-            ),
-            child: Column(
-              children: [
-                searchBox(),
-                Expanded(
-                  child: ListView(
-                    children: [
-                      Container(
-                        margin: EdgeInsets.only(top: 50, bottom: 20),
-                        child: Text(
-                          'All ToDos',
-                          style: TextStyle(
-                            fontSize: 30,
-                            fontWeight: FontWeight.w500,
-                            color: const Color.fromARGB(255, 97, 94, 94),
+            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+              child: Column(
+                children: [
+                  searchBox(),
+                  Expanded(
+                    child: Scrollbar(
+                    controller: _scrollController,
+                    thumbVisibility: true,
+                    child: ListView(
+                      controller: _scrollController,
+                      children: [
+                        Container(
+                          margin: EdgeInsets.only(top: 50, bottom: 20),
+                          child: Text(
+                            'All ToDos',
+                            style: TextStyle(
+                              fontSize: 30,
+                              fontWeight: FontWeight.w500,
+                              color: const Color.fromARGB(255, 97, 94, 94),
+                            ),
                           ),
                         ),
+                        for (ToDo item in _foundToDo)
+                          TodoItem(
+                            todo: item,
+                            onToDoChanged: _handleToDoChange,
+                            onDeleteItem: _deleteToDoItem,
+                          ),
+                        ],
                       ),
-                      for (ToDo item in _foundToDo)
-                        TodoItem(
-                          todo: item,
-                          onToDoChanged: _handleToDoChange,
-                          onDeleteItem: _deleteToDoItem,
-                        ),
-                    ],
-                  )
-                )
-              ],
+                    ),
+                  ),
+                ],
+              ),
             ),
-          ),
-          Align(
-            alignment: Alignment.bottomCenter,
+
+            // Footer container with the text field and add button
+            Align(
+              alignment: Alignment.bottomCenter,
             child: Row(children: [
               Expanded(
                 child: Container(
@@ -132,38 +146,37 @@ class _HomeState extends State<TodoScreen> {
                         color: const Color.fromARGB(255, 97, 94, 94),
                       ),
                       border: InputBorder.none,
+                          ),
+                        ),
+                      ),
                     ),
-                  ),
+
+                    // Add button with plus icon
+                    Container(
+                      margin: EdgeInsets.only(bottom: 20, right: 20),
+                      child: ElevatedButton(
+                        onPressed: () {
+                          _addToDoItem(_todoController.text);
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: const Color.fromARGB(255, 255, 255, 255),
+                          minimumSize: Size(60, 60),
+                          elevation: 10,
+                        ),
+                        child: Text(
+                          '+',
+                          textAlign: TextAlign.justify,
+                          style: TextStyle(fontSize: 40, color: const Color.fromARGB(255, 97, 94, 94),),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
-              Container(
-                margin: EdgeInsets.only(
-                  bottom: 20,
-                  right: 20,
-                ),
-                child: ElevatedButton(
-                  onPressed: () {
-                    _addToDoItem(_todoController.text);
-                  },
-                  style: ElevatedButton.styleFrom(
-                     backgroundColor: const Color.fromARGB(255, 255, 255, 255),
-                     minimumSize: Size(60, 60),
-                     elevation: 10,
-                  ),
-                  child: Text(
-                    '+',
-                    textAlign: TextAlign.justify,
-                    style: TextStyle(
-                      fontSize: 40,
-                      color: const Color.fromARGB(255, 97, 94, 94),
-                    ),
-                  ),
-                ),
-              ),
-            ],)
-          )
-        ],)
-    );
+            ),
+          ],
+        )
+      );
   }
 
   void _handleToDoChange(ToDo todo) {
@@ -195,7 +208,6 @@ class _HomeState extends State<TodoScreen> {
     });
     _todoController.clear();
     _saveToDoList();
-    print("To-do list after adding item: ${jsonEncode(todoList.map((todo) => todo.toJson()).toList())}");
   }
 
   void _sortToDoList() {
@@ -251,6 +263,7 @@ class _HomeState extends State<TodoScreen> {
       elevation: 0,
       title: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+
       ),
     );
   }
