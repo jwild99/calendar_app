@@ -16,16 +16,14 @@ class TodoItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.only(left: 30, right: 30, bottom: 10),
+    return Padding(
+  padding: const EdgeInsets.only(bottom: 10),
+  child: ClipRRect(
+    borderRadius: BorderRadius.circular(20),
+    child: Container(
+      color: todo.isDone ? Color(0xFFE6F7E1) : Colors.white,
       child: ListTile(
-        onTap: () {
-          // print('Clicked on Todo Item.');
-          onToDoChanged(todo);
-        },
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20)
-        ),
+        onTap: () => onToDoChanged(todo),
         contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
         leading: Icon(
           todo.isDone ? Icons.check_box : Icons.check_box_outline_blank,
@@ -42,11 +40,11 @@ class TodoItem extends StatelessWidget {
                 decoration: todo.isDone ? TextDecoration.lineThrough : null,
               ),
             ),
-            if (todo.dueDate != null) // Display due date if it's set
+            if (todo.dueDate != null)
               Padding(
                 padding: const EdgeInsets.only(top: 5),
                 child: Text(
-                  'Due: ${todo.dueDate!.toLocal().toString().split(' ')[0]}', // Format the date
+                  'Due: ${todo.dueDate!.toLocal().toString().split(' ')[0]}',
                   style: TextStyle(
                     fontSize: 14,
                     color: Colors.black,
@@ -55,28 +53,21 @@ class TodoItem extends StatelessWidget {
               ),
           ],
         ),
-        tileColor: todo.isDone ? Color(0xFFE6F7E1) : Colors.white,
         trailing: Container(
-          padding: EdgeInsets.all(0),
-          // margin: EdgeInsets.symmetric(vertical: 12),
           height: 35,
           width: 35,
           decoration: BoxDecoration(
             color: tdRed,
             borderRadius: BorderRadius.circular(5),
-
           ),
           child: IconButton(
-            color: Colors.white,
-            iconSize: 18,
-            icon: Icon(Icons.delete),
-            onPressed: () {
-              // print('Clicked on delete button.');
-              onDeleteItem(todo.id);
-            },
+            icon: Icon(Icons.delete, color: Colors.white, size: 18),
+            onPressed: () => onDeleteItem(todo.id),
           ),
         ),
       ),
-    );
+    ),
+  ),
+);
   }
 }

@@ -1,6 +1,5 @@
 import '../models/todo_model.dart';
 import 'package:flutter/material.dart';
-import '../const/constant.dart';
 import '../widgets/todo_item_widget.dart';
 import 'dart:convert';
 import 'dart:io';
@@ -79,105 +78,94 @@ class _HomeState extends State<TodoScreen> {
     return Scaffold(
       backgroundColor: const Color.fromARGB(233, 240, 252, 184),
       appBar: _buildAppBar(),
-      body: Stack(
-        children: [
-        // Main content (to-do list)
-          Container(
-            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
-              child: Column(
-                children: [
-                  searchBox(),
-                  Expanded(
-                    child: Scrollbar(
-                    controller: _scrollController,
-                    thumbVisibility: true,
-                    child: ListView(
-                      controller: _scrollController,
-                      children: [
-                        Container(
-                          margin: EdgeInsets.only(top: 50, bottom: 20),
-                          child: Text(
-                            'All ToDos',
-                            style: TextStyle(
-                              fontSize: 30,
-                              fontWeight: FontWeight.w500,
-                              color: const Color.fromARGB(255, 97, 94, 94),
-                            ),
-                          ),
-                        ),
-                        for (ToDo item in _foundToDo)
-                          TodoItem(
-                            todo: item,
-                            onToDoChanged: _handleToDoChange,
-                            onDeleteItem: _deleteToDoItem,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+      body: Column(
+  children: [
+    Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+      child: searchBox(),
+    ),
+    Expanded(
+  child: Padding(
+    padding: const EdgeInsets.symmetric(horizontal: 20),
+    child: ClipRRect(
+      borderRadius: BorderRadius.circular(12),
+      child: Container(
+        decoration: BoxDecoration(
+          color: const Color.fromARGB(150, 255, 255, 255),
+        ),
+        child: Theme(
+          data: Theme.of(context).copyWith(
+            scrollbarTheme: ScrollbarThemeData(
+              thumbColor: WidgetStateProperty.all(Colors.grey),
+              thickness: WidgetStateProperty.all(6),
+              radius: Radius.circular(8),
             ),
-
-            // Footer container with the text field and add button
-            Align(
-              alignment: Alignment.bottomCenter,
-            child: Row(children: [
-              Expanded(
-                child: Container(
-                  margin: EdgeInsets.only(
-                    bottom: 20,
-                    right: 20,
-                    left: 20,
-                  ),
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 20,
-                    vertical: 5),
-                  decoration: BoxDecoration(
-                    color: const Color.fromARGB(255, 228, 241, 144),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: TextField(
-                        controller: _todoController,
-                        decoration: InputDecoration(
-                        hintText: 'Add a new todo item',
-                        hintStyle: TextStyle
-                        (
-                                color: const Color.fromARGB(255, 97, 94, 94),
-                        ),
-                        border: InputBorder.none,
-                          ),
-                          style: TextStyle(
-                                color: Color.fromARGB(255, 97, 94, 94),
-                          ),
-                        ),
-                      ),
-                    ),
-
-                    // Add button with plus icon
-                    Container(
-                      margin: EdgeInsets.only(bottom: 20, right: 20),
-                      child: ElevatedButton(
-                        onPressed: () {
-                          _addToDoItem(_todoController.text);
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color.fromARGB(255, 255, 255, 255),
-                          minimumSize: Size(60, 60),
-                          elevation: 10,
-                        ),
-                        child: Text(
-                          '+',
-                          textAlign: TextAlign.justify,
-                          style: TextStyle(fontSize: 40, color: const Color.fromARGB(255, 97, 94, 94),),
-                        ),
-                      ),
-                    ),
-                  ],
+          ),
+          child: Scrollbar(
+            controller: _scrollController,
+            thumbVisibility: true,
+            child: ListView.builder(
+              controller: _scrollController,
+              padding: const EdgeInsets.all(10),
+              itemCount: _foundToDo.length,
+              itemBuilder: (context, index) {
+                final item = _foundToDo[index];
+                  return TodoItem(
+                    todo: item,
+                    onToDoChanged: _handleToDoChange,
+                    onDeleteItem: _deleteToDoItem,
+                  );
+              },
+            ),
+          ),
+        ),
+      ),
+    ),
+  ),
+),
+    Padding(
+      padding: const EdgeInsets.only(bottom: 20, left: 20, right: 20, top: 10),
+      child: Row(
+        children: [
+          Expanded(
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+              decoration: BoxDecoration(
+                color: const Color.fromARGB(255, 228, 241, 144),
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: TextField(
+                controller: _todoController,
+                decoration: const InputDecoration(
+                  hintText: 'Add a new todo item',
+                  border: InputBorder.none,
+                ),
+                style: const TextStyle(
+                  color: Color.fromARGB(255, 97, 94, 94),
                 ),
               ),
-          ],
-        )
+            ),
+          ),
+          const SizedBox(width: 10),
+          ElevatedButton(
+            onPressed: () {
+              _addToDoItem(_todoController.text);
+            },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.white,
+              minimumSize: const Size(60, 60),
+              elevation: 10,
+            ),
+            child: const Text(
+              '+',
+              style: TextStyle(fontSize: 30, color: Color.fromARGB(255, 97, 94, 94)),
+            ),
+          ),
+        ],
+      ),
+    ),
+  ],
+),
       );
   }
 

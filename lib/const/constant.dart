@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 const defaultPadding = 20.0;
 
 // screen card titles
-const todoTitle = "ToDo List";
-const calendarTitle = "Calendar";
+const todoTitle = "My Upcoming Tasks";
+const calendarTitle = "My Upcoming Events";
 const timerTitle = "Pomodoro";
 
 // dashboard colors

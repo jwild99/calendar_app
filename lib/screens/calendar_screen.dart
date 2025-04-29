@@ -275,6 +275,9 @@ class CalendarScreenState extends State<CalendarScreen> {
                         elevation: 0,
                         title: Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text("Calendar"), // Or your custom title
+                                ],
                         ),
                 );
         }
