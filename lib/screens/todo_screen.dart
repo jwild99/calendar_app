@@ -138,14 +138,17 @@ class _HomeState extends State<TodoScreen> {
                     borderRadius: BorderRadius.circular(10),
                   ),
                   child: TextField(
-                    controller: _todoController,
-                    decoration: InputDecoration(
-                      hintText: 'Add a new todo item',
-                      hintStyle: TextStyle
-                      (
-                        color: const Color.fromARGB(255, 97, 94, 94),
-                      ),
-                      border: InputBorder.none,
+                        controller: _todoController,
+                        decoration: InputDecoration(
+                        hintText: 'Add a new todo item',
+                        hintStyle: TextStyle
+                        (
+                                color: const Color.fromARGB(255, 97, 94, 94),
+                        ),
+                        border: InputBorder.none,
+                          ),
+                          style: TextStyle(
+                                color: Color.fromARGB(255, 97, 94, 94),
                           ),
                         ),
                       ),
@@ -173,7 +176,6 @@ class _HomeState extends State<TodoScreen> {
                   ],
                 ),
               ),
-            ),
           ],
         )
       );
@@ -189,25 +191,66 @@ class _HomeState extends State<TodoScreen> {
   }
 
   void _deleteToDoItem(String id) {
-    setState(() {
-      todoList.removeWhere((item) => item.id == id);
-    });
-    _saveToDoList();
-    _foundToDo = List.from(todoList);
+    showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: Text("Delete Item"),
+        content: Text("Are you sure you want to delete this to-do item?"),
+        actions: [
+          TextButton(
+            onPressed: () {
+              setState(() {
+                todoList.removeWhere((item) => item.id == id);
+                _saveToDoList();
+                _foundToDo = List.from(todoList);
+              });
+              Navigator.of(context).pop(); // Close the dialog
+            },
+            child: Text("Yes"),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop(); // Close the dialog without deleting
+            },
+            child: Text("No"),
+          ),
+        ],
+      );
+    },
+    );
   }
 
-  void _addToDoItem(String todo) {
+  void _addToDoItem(String todo) async {
     print("Adding to do item: $todo");
+
+    DateTime? selectedDate = await _selectDueDate(context);
+
     setState(() {
-      todoList.add(ToDo(
+        todoList.add(ToDo(
         id: DateTime.now().microsecondsSinceEpoch.toString(),
-        todoText: todo
-      ));
-      _sortToDoList();
-      _foundToDo = List.from(todoList);
+        todoText: todo,
+        dueDate: selectedDate,
+        ));
+        _sortToDoList();
+        _foundToDo = List.from(todoList);
     });
     _todoController.clear();
     _saveToDoList();
+
+    ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Added "$todo" to your to-do list!'), duration: Durations.long3,),
+    );
+  }
+
+  Future<DateTime?> _selectDueDate(BuildContext context) async {
+        final DateTime? picked = await showDatePicker(
+        context: context,
+        initialDate: DateTime.now(),
+        firstDate: DateTime(2000),
+        lastDate: DateTime(2101),
+        );
+        return picked;
   }
 
   void _sortToDoList() {
@@ -263,7 +306,9 @@ class _HomeState extends State<TodoScreen> {
       elevation: 0,
       title: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-
+        children: [
+        Text("To-Do List"), // Or your custom title
+        ],
       ),
     );
   }

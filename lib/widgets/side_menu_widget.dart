@@ -27,40 +27,49 @@ class _SideMenuWidgetState extends State<SideMenuWidget> {
   }
 
   Widget buildMenuEntry(SideMenuData data, int index) {
-    final isSelected = selectedIndex == index;
+  final isSelected = selectedIndex == index;
 
-    return Container(
-      margin: const EdgeInsets.symmetric(vertical: 5),
-      decoration: BoxDecoration(
-        borderRadius: const BorderRadius.all(
-          Radius.circular(6.0),
-        ),
-        color: isSelected ? selectionColor : Colors.transparent,
+  return Container(
+    margin: const EdgeInsets.symmetric(vertical: 5),
+    decoration: BoxDecoration(
+      borderRadius: const BorderRadius.all(
+        Radius.circular(6.0),
       ),
-      child: InkWell(
-        onTap: () => setState(() {
+      color: isSelected ? selectionColor : Colors.transparent,
+    ),
+    child: InkWell(
+      onTap: () {
+        setState(() {
           selectedIndex = index;
-        }),
-        child: Row(
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 13, vertical: 7),
-              child: Icon(
-                data.menu[index].icon,
-                color: isSelected ?  Colors.white : Colors.grey,
-              ),
+        });
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => data.menu[index].screen,
+          ),
+        );
+      },
+      child: Row(
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 13, vertical: 7),
+            child: Icon(
+              data.menu[index].icon,
+              color: isSelected ? Colors.white : Colors.grey,
             ),
-            Text(
-              data.menu[index].title,
-              style: TextStyle(
-                fontSize: 16,
-                color: isSelected ? const Color.fromARGB(255, 255, 192, 213) : Colors.grey,
-                fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
-              ),
-            )
-          ],
-        ),
+          ),
+          Text(
+            data.menu[index].title,
+            style: TextStyle(
+              fontSize: 16,
+              color: isSelected ? const Color.fromARGB(255, 255, 192, 213) : Colors.grey,
+              fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
+            ),
+          )
+        ],
       ),
+    ),
     );
   }
+
 }

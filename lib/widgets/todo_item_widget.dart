@@ -27,19 +27,35 @@ class TodoItem extends StatelessWidget {
           borderRadius: BorderRadius.circular(20)
         ),
         contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-        tileColor: Colors.white,
         leading: Icon(
           todo.isDone ? Icons.check_box : Icons.check_box_outline_blank,
           color: selectionColor,
         ),
-        title: Text(
-          todo.todoText!,
-          style: TextStyle(
-            fontSize: 16,
-            color: tdBlack,
-            decoration: todo.isDone? TextDecoration.lineThrough : null,
-          ),
+        title: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              todo.todoText!,
+              style: TextStyle(
+                fontSize: 16,
+                color: tdBlack,
+                decoration: todo.isDone ? TextDecoration.lineThrough : null,
+              ),
+            ),
+            if (todo.dueDate != null) // Display due date if it's set
+              Padding(
+                padding: const EdgeInsets.only(top: 5),
+                child: Text(
+                  'Due: ${todo.dueDate!.toLocal().toString().split(' ')[0]}', // Format the date
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: Colors.black,
+                  ),
+                ),
+              ),
+          ],
         ),
+        tileColor: todo.isDone ? Color(0xFFE6F7E1) : Colors.white,
         trailing: Container(
           padding: EdgeInsets.all(0),
           // margin: EdgeInsets.symmetric(vertical: 12),

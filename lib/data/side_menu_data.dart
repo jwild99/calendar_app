@@ -1,12 +1,24 @@
-import 'package:calendar_app/models/menu_model.dart';
+// side_menu_data.dart
+import 'package:calendar_app/screens/todo_screen.dart';
+import 'package:calendar_app/screens/calendar_screen.dart';
+import 'package:calendar_app/screens/timer_screen.dart';
+import 'package:calendar_app/screens/main_screen.dart';
 import 'package:flutter/material.dart';
 
+class MenuItemData {
+  final String title;
+  final IconData icon;
+  final Widget screen; // ADD THIS
+
+  MenuItemData({required this.title, required this.icon, required this.screen});
+}
+
 class SideMenuData {
-  final menu = const <MenuModel>[
-    MenuModel(icon: Icons.home, title: 'Home'),
-    MenuModel(icon: Icons.checklist, title: 'To-Do'),
-    MenuModel(icon: Icons.calendar_today, title: 'Calendar'),
-    MenuModel(icon: Icons.timer, title: 'Pomodoro'),
-    MenuModel(icon: Icons.logout, title: 'Add More'),
+  final List<MenuItemData> menu = [
+    MenuItemData(title: 'Home', icon: Icons.home, screen: MainScreen()),
+    MenuItemData(title: 'To-Do', icon: Icons.checklist, screen: TodoScreen()),
+    MenuItemData(title: 'Calendar', icon: Icons.calendar_today, screen: CalendarScreen()),
+    MenuItemData(title: 'Pomodoro', icon: Icons.timer, screen: TimerScreen()),
+    MenuItemData(title: 'Add More', icon: Icons.add, screen: MainScreen())
   ];
 }
