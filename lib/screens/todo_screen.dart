@@ -210,26 +210,35 @@ class _HomeState extends State<TodoScreen> {
   }
 
   void _addToDoItem(String todo) async {
-    print("Adding to do item: $todo");
+  print("Adding to-do item: $todo");
 
-    DateTime? selectedDate = await _selectDueDate(context);
+  DateTime? selectedDate = await _selectDueDate(context);
 
+  // Check if the user selected a date, if not, do not add the item
+  if (selectedDate != null) {
     setState(() {
-        todoList.add(ToDo(
+      todoList.add(ToDo(
         id: DateTime.now().microsecondsSinceEpoch.toString(),
         todoText: todo,
         dueDate: selectedDate,
-        ));
-        _sortToDoList();
-        _foundToDo = List.from(todoList);
+      ));
+      _sortToDoList();
+      _foundToDo = List.from(todoList);
     });
     _todoController.clear();
     _saveToDoList();
 
     ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Added "$todo" to your to-do list!'), duration: Durations.long3,),
+      SnackBar(content: Text('Added "$todo" to your to-do list!'), duration: Durations.extralong4),
+    );
+  } else {
+    // Optionally show a message if the user cancels the date selection
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('No due date selected, to-do item not added'), duration: Durations.extralong4),
     );
   }
+}
+
 
   Future<DateTime?> _selectDueDate(BuildContext context) async {
         final DateTime? picked = await showDatePicker(

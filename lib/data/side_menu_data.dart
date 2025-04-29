@@ -18,7 +18,6 @@ class SideMenuData {
     MenuItemData(title: 'Home', icon: Icons.home, screen: MainScreen()),
     MenuItemData(title: 'To-Do', icon: Icons.checklist, screen: TodoScreen()),
     MenuItemData(title: 'Calendar', icon: Icons.calendar_today, screen: CalendarScreen()),
-    MenuItemData(title: 'Pomodoro', icon: Icons.timer, screen: TimerScreen()),
-    MenuItemData(title: 'Add More', icon: Icons.add, screen: MainScreen())
+    MenuItemData(title: 'Pomodoro', icon: Icons.timer, screen: TimerScreen())
   ];
 }

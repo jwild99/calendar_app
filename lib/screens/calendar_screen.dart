@@ -218,9 +218,7 @@ class CalendarScreenState extends State<CalendarScreen> {
                                                                                                         ),
                                                                                                         // Show event count if there are any
                                                                                                         if (hasEvent)
-                                                                                                                Positioned(
-                                                                                                                        bottom: 0,
-                                                                                                                        left: 95,
+                                                                                                                Center(
                                                                                                                         child: Container(
                                                                                                                                 padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
                                                                                                                                 decoration: BoxDecoration(

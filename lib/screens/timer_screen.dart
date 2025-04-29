@@ -156,6 +156,9 @@ class TimerScreenState extends State<TimerScreen> {
       elevation: 0,
       title: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+        Text("Pomodoro Timer"), // Or your custom title
+        ],
       ),
     );
   }
